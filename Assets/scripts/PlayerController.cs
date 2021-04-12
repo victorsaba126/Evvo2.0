@@ -394,7 +394,7 @@ public class PlayerController : MonoBehaviour
         //si el jugador recibe daño cuando haya pasado el coldown que reciba daño setee el coldown a 0 otra vez y haga una animación el player
         if (coldown == false && god == false)
         {
-            if (other.tag == "Projectil")
+            if (other.tag == "Projectil" || other.tag == "EnemyAtack")
             {
                 
                 damage(1);

@@ -20,6 +20,7 @@ TagManager:
   - Tutorial2
   - Tutorial3
   - Terrain
+  - EnemyAtack
   layers:
   - Default
   - TransparentFX

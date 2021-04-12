@@ -49,6 +49,7 @@ public class enemy2 : MonoBehaviour
     public GameObject projectile;
     private Vector3 PosProjectile;
     public float yProject = 0.6f;
+    public GameObject atack;
 
 
     [Header("Patrol")]
@@ -402,17 +403,20 @@ public class enemy2 : MonoBehaviour
     private IEnumerator AttackFalse()
     {
         yield return new WaitForSeconds(0.6f);
+        atack.SetActive(false);
         attack = false;
         idle = true;
     }
     private IEnumerator AttackOn()
     {
         yield return new WaitForSeconds(0.3f);
-        PosProjectile = new Vector3(transform.position.x, transform.position.y + yProject, transform.position.z);
-        Rigidbody rb = Instantiate(projectile, PosProjectile + (transform.forward * 1.2f), Quaternion.identity).GetComponent<Rigidbody>();
+        //PosProjectile = new Vector3(transform.position.x, transform.position.y + yProject, transform.position.z);
+        //Rigidbody rb = Instantiate(projectile, PosProjectile + (transform.forward * 1.2f), Quaternion.identity).GetComponent<Rigidbody>();
 
-        rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-        rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+        //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+        //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+        atack.SetActive(true);
+
 
     }
 
