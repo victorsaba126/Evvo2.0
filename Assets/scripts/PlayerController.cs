@@ -190,7 +190,12 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                attackbox.SetActive(true);
+                attackbox.SetActive(false);
+                if (timeCounterCd >= 0.5f)
+                {
+                    attackbox.SetActive(true);
+                }
+                
             }
         }
     }

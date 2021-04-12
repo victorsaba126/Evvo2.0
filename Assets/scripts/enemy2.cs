@@ -40,6 +40,7 @@ public class enemy2 : MonoBehaviour
     private bool attack;
     private bool die;
     private bool dmg;
+    private bool idle;
 
 
     //Attacking
@@ -112,9 +113,11 @@ public class enemy2 : MonoBehaviour
         attack = false;
         dmg = false;
         die = false;
+        idle = true;
         
         if (playerInSightRange)
         {
+            idle = false;
             walk = true;
             enemySound.SetActive(true);
             SetChase();
@@ -126,6 +129,7 @@ public class enemy2 : MonoBehaviour
 
         if (timeCounter >= timeStopped)
         {
+            idle = false;
             walk = true;
             if (nodes[currentNode] == null)
             {
@@ -246,16 +250,17 @@ public class enemy2 : MonoBehaviour
 
         if (!alreadyAttacked && dmg == false && die ==false)
         {
+            idle = false;
+            attack = true;
             //Attack code here
-            PosProjectile = new Vector3(transform.position.x, transform.position.y + yProject, transform.position.z);
-            Rigidbody rb = Instantiate(projectile, PosProjectile + (transform.forward * 1.2f), Quaternion.identity).GetComponent<Rigidbody>();
-
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            StartCoroutine(AttackOn());
+            
 
             //
             alreadyAttacked = true;
-            attack = true;
+            
+            StartCoroutine(AttackFalse());
+
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
 
         }
@@ -270,9 +275,12 @@ public class enemy2 : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        attack = false;
-        health -= damage;
+        //attack = false;
+        idle = false;
+        walk = false;
+        die = false;
 
+        health -= damage;
         if (health <= 0)
         {
             
@@ -330,7 +338,7 @@ public class enemy2 : MonoBehaviour
         {
 
             
-                Invoke(nameof(takeDamage), 0.3f);
+                Invoke(nameof(takeDamage), 0f);
            
             
             
@@ -365,6 +373,15 @@ public class enemy2 : MonoBehaviour
         {
             animator.SetBool("Dead", false);
         }
+        if (idle)
+        {
+            animator.SetBool("Idle", true);
+        }
+        else
+        {
+            animator.SetBool("Idle", false);
+        }
+
 
     }
 
@@ -379,8 +396,24 @@ public class enemy2 : MonoBehaviour
 
     private IEnumerator DmgFalse()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.1f);
         dmg = false;
+    }
+    private IEnumerator AttackFalse()
+    {
+        yield return new WaitForSeconds(0.6f);
+        attack = false;
+        idle = true;
+    }
+    private IEnumerator AttackOn()
+    {
+        yield return new WaitForSeconds(0.3f);
+        PosProjectile = new Vector3(transform.position.x, transform.position.y + yProject, transform.position.z);
+        Rigidbody rb = Instantiate(projectile, PosProjectile + (transform.forward * 1.2f), Quaternion.identity).GetComponent<Rigidbody>();
+
+        rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+        rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+
     }
 
 
