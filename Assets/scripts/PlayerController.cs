@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour
     //Fucion para Jump
     public void playerSkills()
     {
-        UnityEngine.Debug.Log("gounded? "+player.isGrounded);
+        //UnityEngine.Debug.Log("gounded? "+player.isGrounded);
         if (player.isGrounded && Input.GetButtonDown("Jump"))
         {
             

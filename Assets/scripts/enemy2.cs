@@ -19,7 +19,8 @@ public class enemy2 : MonoBehaviour
     public bool semiboss;
     public bool dead = false;
     public float health;
-
+    private float tiempo=0;
+    public float animacion = 5f;
 
     //states
     public float sightRange, attackRange;
@@ -33,6 +34,12 @@ public class enemy2 : MonoBehaviour
     public GameObject portal;
     public GameObject soul;
     private Puerta_final anim;
+
+    //Enemy animations
+    private bool walk;
+    private bool attack;
+    private bool die;
+    private bool dmg;
 
 
     //Attacking
@@ -64,6 +71,7 @@ public class enemy2 : MonoBehaviour
     {
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        animations();
         if (agent.velocity.normalized != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
@@ -88,12 +96,26 @@ public class enemy2 : MonoBehaviour
             
 
         }
+        if (health <= 0)
+        {
+            tiempo += Time.deltaTime;
+            if(tiempo >= animacion)
+            {
+                DestroyEnemy();
+            }
+        }
     }
 
     private void IdleUpdate()
     {
+        walk = false;
+        attack = false;
+        dmg = false;
+        die = false;
+        
         if (playerInSightRange)
         {
+            walk = true;
             enemySound.SetActive(true);
             SetChase();
             return;
@@ -104,6 +126,7 @@ public class enemy2 : MonoBehaviour
 
         if (timeCounter >= timeStopped)
         {
+            walk = true;
             if (nodes[currentNode] == null)
             {
                 return;
@@ -115,6 +138,7 @@ public class enemy2 : MonoBehaviour
                 GoNearNode();
             SetPatrol();
         }
+       
     }
 
     private void PatrolUpdate()
@@ -146,6 +170,7 @@ public class enemy2 : MonoBehaviour
         agent.SetDestination(player.transform.position);
         if (playerInAttackRange)
         {
+            walk = false;
             AttackPlayer();
         }
 
@@ -155,8 +180,10 @@ public class enemy2 : MonoBehaviour
     private void SetIdle()
     {
         agent.isStopped = true;
+        walk = false;
         timeCounter = 0;
         state = State.Idle;
+        
     }
 
     private void SetPatrol()
@@ -217,7 +244,7 @@ public class enemy2 : MonoBehaviour
         playerLook = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.LookAt(playerLook);
 
-        if (!alreadyAttacked)
+        if (!alreadyAttacked && dmg == false && die ==false)
         {
             //Attack code here
             PosProjectile = new Vector3(transform.position.x, transform.position.y + yProject, transform.position.z);
@@ -228,6 +255,7 @@ public class enemy2 : MonoBehaviour
 
             //
             alreadyAttacked = true;
+            attack = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
 
         }
@@ -236,23 +264,32 @@ public class enemy2 : MonoBehaviour
 
     private void ResetAttack()
     {
+        attack = false;
         alreadyAttacked = false;
     }
 
     public void TakeDamage(int damage)
     {
+        attack = false;
         health -= damage;
 
         if (health <= 0)
         {
-            Invoke(nameof(DestroyEnemy), .5f);
+            
+            die = true;
+            //Invoke(nameof(DestroyEnemy), 10f);
         }
+        
+        dmg = true;
+        
+
     }
 
     private void DestroyEnemy()
     {
         if (semiboss)
         {
+           
             portal.SetActive(true);
             soul.SetActive(true);
             dead = true;
@@ -263,6 +300,7 @@ public class enemy2 : MonoBehaviour
         {
 
         }
+        Debug.Log(die);
         Destroy(gameObject);
 
     }
@@ -285,6 +323,65 @@ public class enemy2 : MonoBehaviour
 
 
     }
+    private void animations()
+    {
+       
+        if (dmg)
+        {
+
+            
+                Invoke(nameof(takeDamage), 0.3f);
+           
+            
+            
+        }
+        else
+        {
+            animator.SetBool("Dmg", false);
+        }
+        if (attack)
+        {
+            animator.SetBool("Attack", true);
+            
+        }
+        else
+        {
+            animator.SetBool("Attack", false);
+        }
+        if (walk )
+        {
+            animator.SetBool("Walk", true);
+
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
+        if (die)
+        {
+            animator.SetBool("Dead", true);
+        }
+        else
+        {
+            animator.SetBool("Dead", false);
+        }
+
+    }
+
+    private void takeDamage()
+    {
+        
+        animator.SetBool("Dmg", true);
+        StartCoroutine(DmgFalse());
 
 
- }
+    }
+
+    private IEnumerator DmgFalse()
+    {
+        yield return new WaitForSeconds(0.4f);
+        dmg = false;
+    }
+
+
+}
