@@ -50,7 +50,9 @@ public class enemy2 : MonoBehaviour
     private Vector3 PosProjectile;
     public float yProject = 0.6f;
     public GameObject atack;
-
+    private bool coldown = false;
+    private float timeCounterCd = 0;
+    private float cdTime = 0.5f;
 
     [Header("Patrol")]
     public float timeStopped = 1;
@@ -73,7 +75,10 @@ public class enemy2 : MonoBehaviour
     {
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
         animations();
+        playerColdown();
+
         if (agent.velocity.normalized != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
@@ -313,17 +318,33 @@ public class enemy2 : MonoBehaviour
         Destroy(gameObject);
 
     }
-
-    public void OnTriggerEnter(Collider other)
+    public void playerColdown()
     {
-        if (other.tag == "Attack")
+        if (coldown == true)
         {
-            Debug.Log("Me ha dado");
-            TakeDamage(1);
+            timeCounterCd += Time.deltaTime;
+            if (timeCounterCd >= cdTime)
+            {
+                timeCounterCd = 0;
+                coldown = false;
+            }
         }
     }
+    public void OnTriggerEnter(Collider other)
+    {
+        if(coldown == false)
+        {
+            if (other.tag == "Attack")
+            {
+                Debug.Log("Me ha dado");
+                TakeDamage(1);
+                coldown = true;
+            }
+        }
+        
+    }
 
-    private void OnDrawGiszmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
