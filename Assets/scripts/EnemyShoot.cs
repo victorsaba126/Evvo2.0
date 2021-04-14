@@ -21,7 +21,7 @@ public class EnemyShoot : MonoBehaviour
         evvo = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
 
-        target = new Vector3(evvo.player.transform.position.x, evvo.player.transform.position.y +0.9f, evvo.player.transform.position.z);
+        target = new Vector3(evvo.player.transform.position.x, evvo.player.transform.position.y +0.8f, evvo.player.transform.position.z-0.5f);
         rotation = new Vector3(evvo.player.transform.position.x, highRotation, evvo.player.transform.position.z);
 
         transform.LookAt(rotation);

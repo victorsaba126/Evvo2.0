@@ -108,6 +108,10 @@ public class enemy2 : MonoBehaviour
             tiempo += Time.deltaTime;
             if(tiempo >= animacion)
             {
+                attack = false;
+                dmg = false;
+                die = true;
+
                 DestroyEnemy();
             }
         }
@@ -293,8 +297,12 @@ public class enemy2 : MonoBehaviour
             die = true;
             //Invoke(nameof(DestroyEnemy), 10f);
         }
+        else
+        {
+            dmg = true;
+        }
         
-        dmg = true;
+        
         
 
     }

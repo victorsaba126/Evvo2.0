@@ -231,14 +231,19 @@ public class EnemyController : MonoBehaviour
             distance = false;
             Invoke(nameof(DestroyEnemy), 5f);
         }
-        random = Random.Range(1, 3);
-        if(random == 1)
+        else
         {
-            dmg1 = true;
-        }else if(random == 2)
-        {
-            dmg2 = true;
+            random = Random.Range(1, 3);
+            if (random == 1)
+            {
+                dmg1 = true;
+            }
+            else if (random == 2)
+            {
+                dmg2 = true;
+            }
         }
+        
     }
 
     private void DestroyEnemy()
@@ -389,14 +394,14 @@ public class EnemyController : MonoBehaviour
     }
     private IEnumerator AttackDistanceOn()
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.8f);
         if (!die)
         {
-            PosProjectile = new Vector3(transform.position.x, transform.position.y + yProject, transform.position.z);
+            PosProjectile = new Vector3(transform.position.x-0.2f, transform.position.y + yProject, transform.position.z+0.68f);
             Rigidbody rb = Instantiate(projectile, PosProjectile + (transform.forward * 1.2f), Quaternion.identity).GetComponent<Rigidbody>();
 
             rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            rb.AddForce(transform.up * 6f, ForceMode.Impulse);
         }
         else
         {
