@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     private bool jump;
     private bool alreadyjump;
     private bool walk;
+    private bool dead = false;
 
 
     void Start()
@@ -173,7 +174,7 @@ public class PlayerController : MonoBehaviour
     //Ataque y coldown de ataque
     public void atack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && optionsMenu.menuIsOpen == false && attacking == false)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && optionsMenu.menuIsOpen == false && attacking == false && dead == false)
         {
             Instantiate(sonidoAttack);
             attacking = true;
@@ -229,7 +230,7 @@ public class PlayerController : MonoBehaviour
         playerInput = new Vector3(horizontalMove, 0, verticalMove);
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
 
-        if (movePlayer.x!=0 && jump==false && attacking == false|| movePlayer.z != 0 && jump == false && attacking == false)
+        if (movePlayer.x!=0 && jump==false && attacking == false && dead == false || movePlayer.z != 0 && jump == false && attacking == false && dead == false)
         {
             walk = true;
         }else if (movePlayer.x == 0 && movePlayer.z == 0)
@@ -262,7 +263,7 @@ public class PlayerController : MonoBehaviour
     public void playerSkills()
     {
         //UnityEngine.Debug.Log("gounded? "+player.isGrounded);
-        if (player.isGrounded && Input.GetButtonDown("Jump"))
+        if (player.isGrounded && Input.GetButtonDown("Jump") && dead==false)
         {
             
             Instantiate(sonidoSalto);
@@ -373,6 +374,10 @@ public class PlayerController : MonoBehaviour
     //muerte del jugador
     public void die()
     {
+        walk = false;
+        jump = false;
+        attacking = false;
+        dead = true;
         tuto = true;
         UnityEngine.Cursor.visible = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
@@ -408,10 +413,7 @@ public class PlayerController : MonoBehaviour
         // Si el jugador muere, el cursor se muetra visible , y lo puedes mover fuera de la ventana, seguidamente pasa a la escena de gameover
         if (other.tag == "Lose" && god == false)
         {
-            tuto = true;
-            UnityEngine.Cursor.visible = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-            menuManager.GameOver();
+            die();
         }
 
         //Si el jugador cae al vacio y entra en el trigger CamaraCaida se desactivara la camara actual de tercera persona y se activara una que simplemente mire al jugador pero no lo siga
@@ -526,7 +528,7 @@ public class PlayerController : MonoBehaviour
     //shake camera, quitar vida al jugador, y cuando la vida sea 0 que pase a la muerte del jugador
     public void damage(int dmg)
     {
-        CameraShake.Instance.ShakeCamera(5f, .2f);
+
         curHealth = curHealth - dmg;
         if (curHealth < 0)
         {
@@ -540,6 +542,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            CameraShake.Instance.ShakeCamera(5f, .2f);
+            
             UnityEngine.Debug.Log("vidas = " + curHealth);
             go[curHealth].SetActive(false);
 
@@ -597,6 +601,16 @@ public class PlayerController : MonoBehaviour
         else
         {
             anim.SetBool("Walk", false);
+        }
+
+        if (dead)
+        {
+            anim.SetBool("Dead", true);
+
+        }
+        else
+        {
+            anim.SetBool("Dead", false);
         }
     }
 
