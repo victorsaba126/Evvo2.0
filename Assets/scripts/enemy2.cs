@@ -78,31 +78,34 @@ public class enemy2 : MonoBehaviour
 
         animations();
         playerColdown();
-
-        if (agent.velocity.normalized != Vector3.zero)
+        if (!die)
         {
-            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
-        }
-        switch (state)
-        {
-            case State.Idle:
-                {
-                    IdleUpdate();
-                    break;
-                }
-            case State.Patrol:
-                {
-                    PatrolUpdate();
-                    break;
-                }
-            case State.Chase:
-                {
-                    ChaseUpdate();
-                    break;
-                }
-            
+            if (agent.velocity.normalized != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
+            }
+            switch (state)
+            {
+                case State.Idle:
+                    {
+                        IdleUpdate();
+                        break;
+                    }
+                case State.Patrol:
+                    {
+                        PatrolUpdate();
+                        break;
+                    }
+                case State.Chase:
+                    {
+                        ChaseUpdate();
+                        break;
+                    }
 
+
+            }
         }
+        
         if (health <= 0)
         {
             tiempo += Time.deltaTime;
@@ -254,9 +257,15 @@ public class enemy2 : MonoBehaviour
     private void AttackPlayer()
     {
         //Make sure enemy doesn't move
-        agent.SetDestination(transform.position);
-        playerLook = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(playerLook);
+        if (die == false)
+        {
+            agent.SetDestination(transform.position);
+
+            playerLook = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        
+            transform.LookAt(playerLook);
+        }
+        
 
         if (!alreadyAttacked && dmg == false && die ==false)
         {

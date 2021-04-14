@@ -74,33 +74,38 @@ public class EnemyController : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         playerInMeleAtack = Physics.CheckSphere(transform.position, meleAttack, whatIsPlayer);
+        if (!die)
+        {
 
-        if (!playerInSightRange && !playerInAttackRange && !playerInMeleAtack)
-        {
-            walk = true;
-            Patroling();
-            Soundon = false;
-            timeCounter = 0;
-        }
-        if (playerInSightRange && !playerInAttackRange && !playerInMeleAtack)
-        {
-            walk = true;
-            ChasePlayer();
-            Soundon = true;
-            timeCounter++;
-        }
-        if (playerInSightRange && playerInAttackRange && !playerInMeleAtack)
-        {
-            walk = false;
-            
 
-            AttackPlayer();
-        }
-        if(playerInSightRange && playerInAttackRange && playerInMeleAtack)
-        {
-            walk = false;
-            distance = false;
-            MeleAttack();
+
+            if (!playerInSightRange && !playerInAttackRange && !playerInMeleAtack)
+            {
+                walk = true;
+                Patroling();
+                Soundon = false;
+                timeCounter = 0;
+            }
+            if (playerInSightRange && !playerInAttackRange && !playerInMeleAtack)
+            {
+                walk = true;
+                ChasePlayer();
+                Soundon = true;
+                timeCounter++;
+            }
+            if (playerInSightRange && playerInAttackRange && !playerInMeleAtack)
+            {
+                walk = false;
+
+
+                AttackPlayer();
+            }
+            if (playerInSightRange && playerInAttackRange && playerInMeleAtack)
+            {
+                walk = false;
+                distance = false;
+                MeleAttack();
+            }
         }
         animations();
         playerColdown();
@@ -110,6 +115,7 @@ public class EnemyController : MonoBehaviour
         {
             bossSound.SetActive(true);
         }
+
 
     }
 
@@ -164,7 +170,11 @@ public class EnemyController : MonoBehaviour
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
         playerLook = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(playerLook);
+        if (!die)
+        {
+            transform.LookAt(playerLook);
+        }
+        
 
         if (!alreadyAttacked && dmg1 == false && dmg2 == false && die == false)
         {
@@ -188,7 +198,11 @@ public class EnemyController : MonoBehaviour
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
         playerLook = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(playerLook);
+        if (!die)
+        {
+            transform.LookAt(playerLook);
+        }
+        
 
         if (!alreadyAttacked && dmg1 == false && dmg2 == false && die == false)
         {

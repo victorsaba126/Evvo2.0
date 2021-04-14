@@ -223,12 +223,15 @@ public class PlayerController : MonoBehaviour
     //Movimiento wasd
     public void movement()
     {
+        if (!dead)
+        {
+            horizontalMove = Input.GetAxis("Horizontal");
+            verticalMove = Input.GetAxis("Vertical");
 
-        horizontalMove = Input.GetAxis("Horizontal");
-        verticalMove = Input.GetAxis("Vertical");
-
-        playerInput = new Vector3(horizontalMove, 0, verticalMove);
-        playerInput = Vector3.ClampMagnitude(playerInput, 1);
+            playerInput = new Vector3(horizontalMove, 0, verticalMove);
+            playerInput = Vector3.ClampMagnitude(playerInput, 1);
+        }
+       
 
         if (movePlayer.x!=0 && jump==false && attacking == false && dead == false || movePlayer.z != 0 && jump == false && attacking == false && dead == false)
         {
