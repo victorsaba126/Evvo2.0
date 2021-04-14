@@ -21,6 +21,7 @@ TagManager:
   - Tutorial3
   - Terrain
   - EnemyAtack
+  - Altura
   layers:
   - Default
   - TransparentFX
