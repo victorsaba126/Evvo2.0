@@ -111,8 +111,8 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_89E9F6B8: {r: 0.7952565, g: 3.4521365, b: 0, a: 0}
-    - Color_8C8534A7: {r: 0.0763617, g: 0.49056602, b: 0.1988221, a: 1}
+    - Color_89E9F6B8: {r: 0.8946639, g: 0, b: 1.7260686, a: 0}
+    - Color_8C8534A7: {r: 0.6124573, g: 0.08904416, b: 0.6509434, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
