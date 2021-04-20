@@ -22,8 +22,8 @@ public class TimeOfDay : MonoBehaviour
     {
         counterTime += Time.deltaTime;
         numero += 0.02f;
-        Debug.Log("numero "+numero);
-        Debug.Log("countertime "+counterTime);
+        //Debug.Log("numero "+numero);
+        //Debug.Log("countertime "+counterTime);
         
         
         

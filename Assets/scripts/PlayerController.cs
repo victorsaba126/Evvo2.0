@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private Easing_move easing;
 
     public bool tuto = false;
-
+    public bool bounce = false;
 
     public float playerSpeed = 10f;
     public float godSpeed = 0.25f;
@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 80f;
     public float fallVelocity = 0f;
     public float jumpForce;
+    public float bounceForce;
 
 
     //stats
@@ -266,7 +267,7 @@ public class PlayerController : MonoBehaviour
     public void playerSkills()
     {
         //UnityEngine.Debug.Log("gounded? "+player.isGrounded);
-        if (player.isGrounded && Input.GetButtonDown("Jump") && dead==false)
+        if (player.isGrounded && Input.GetButtonDown("Jump") && dead==false )
         {
             
             Instantiate(sonidoSalto);
@@ -293,6 +294,16 @@ public class PlayerController : MonoBehaviour
                 jump = false;
             }
             CreateDust();
+        }
+        if (dead == false && bounce)
+        {
+            //UnityEngine.Debug.Log("entra");
+            Instantiate(sonidoSalto);
+            fallVelocity = bounceForce;
+            movePlayer.y = fallVelocity;
+            jump = true;
+            walk = false;
+            alreadyjump = true;
         }
        
     }
