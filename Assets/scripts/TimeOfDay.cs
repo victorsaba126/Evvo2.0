@@ -13,14 +13,20 @@ public class TimeOfDay : MonoBehaviour
     private float counterTime;
     public float transitionTime;
     public bool nightOn = false;
+    private float numero = 0;
 
    
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         counterTime += Time.deltaTime;
-        Debug.Log(counterTime);
+        numero += 0.02f;
+        Debug.Log("numero "+numero);
+        Debug.Log("countertime "+counterTime);
+        
+        
+        
        if(counterTime>= transitionTime)
         {
             counterTime = 0;
@@ -37,11 +43,11 @@ public class TimeOfDay : MonoBehaviour
             }
             if (nightOn)
             {
-                night.weight = night.weight + (counterTime * -0.00001f);
+                night.weight = numero / transitionTime; /*(counterTime * -0.00001f);*/
             }
             else
             {
-                night.weight = night.weight + (counterTime * 0.00001f);
+                night.weight = numero/ transitionTime;/*(counterTime * 0.00001f);*/
             }
 
             //day.weight = day.weight+(counterTime * - 0.01f);

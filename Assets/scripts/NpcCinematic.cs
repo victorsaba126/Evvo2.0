@@ -6,9 +6,10 @@ public class NpcCinematic : MonoBehaviour
 {
     public LayerMask whatIsPlayer;
     public float range;
-    private bool isPlayerHere;
+    private bool isPlayerHere, pressF = false;
     public GameObject cinematic;
     public GameObject freelook;
+    public GameObject sprite;
 
     void Start()
     {
@@ -23,13 +24,27 @@ public class NpcCinematic : MonoBehaviour
 
         if (isPlayerHere)
         {
-            freelook.SetActive(false);
-            cinematic.SetActive(true);
+            if (!pressF)
+            {
+                sprite.SetActive(true);
+            }
+          
+            if (Input.GetKey("f"))
+            {
+                sprite.SetActive(false);
+                freelook.SetActive(false);
+                cinematic.SetActive(true);
+                pressF = true;
+            }
+            
+            
         }
         else
         {
+            sprite.SetActive(false);
             freelook.SetActive(true);
             cinematic.SetActive(false);
+            pressF = false;
         }
     }
     void OnDrawGizmosSelected()
