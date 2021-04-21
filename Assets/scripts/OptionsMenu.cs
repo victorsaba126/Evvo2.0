@@ -44,7 +44,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] Slider sliSFX;
     [SerializeField] Slider sliBrightness;
     [SerializeField] Slider sliGamme;
-    [SerializeField] Slider sliZoom;
+    //[SerializeField] Slider sliZoom;
 
     public GameObject canvasHUD;
     public GameObject canvasTutorial;
@@ -69,7 +69,7 @@ public class OptionsMenu : MonoBehaviour
         menuManager = FindObjectOfType<MenuManager>();
 
         //sliBrightness.value = PlayerPrefs.GetFloat(zoom_PPrefsTag, 4f);
-        sliZoom.value = PlayerPrefs.GetFloat(brightness_PPrefsTag, 0.75f);
+        //sliZoom.value = PlayerPrefs.GetFloat(brightness_PPrefsTag, 0.75f);
         sliGamme.value = PlayerPrefs.GetFloat(gamma_PPrefsTag, 0.1f);
         sliMusic.value = PlayerPrefs.GetFloat(music_PPrefsTag, 0.5f);
         sliSFX.value = PlayerPrefs.GetFloat(sfx_PPrefsTag, 0.5f);
