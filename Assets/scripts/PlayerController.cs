@@ -386,7 +386,7 @@ public class PlayerController : MonoBehaviour
 
     //muerte del jugador
     public void die()
-    {
+    {        
         walk = false;
         jump = false;
         attacking = false;
