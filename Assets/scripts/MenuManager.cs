@@ -55,7 +55,7 @@ public class MenuManager : MonoBehaviour
     {
         //audioPlayer.PlaySound(0, 1, 1);
         yield return new WaitForSeconds(0.5f);
-        SceneManager.LoadScene("GameScene_animations");
+        SceneManager.LoadScene("GameScene");
     }
     private IEnumerator WaitExit()
     {
